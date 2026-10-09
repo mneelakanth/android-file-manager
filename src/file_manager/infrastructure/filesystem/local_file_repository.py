@@ -5,23 +5,32 @@ from file_manager.domain import File, FileType, FileRepository
 
 class LocalFileRepository(FileRepository):
 
+    def _create_file(self, path) -> File:
+        file_type = (
+            FileType.DIRECTORY
+            if path.is_dir()
+            else FileType.FILE
+        )
+
+        file = File(
+            name=path.name, 
+            path=path, 
+            file_type=file_type,
+            size=path.stat().st_size,
+        )
+        return file
+
     def list_directory(self, path:Path) -> list[File]:
         files = []
         
         for item in sorted(path.iterdir(), key=lambda item: item.name.lower()):
-            file_type = (
-                FileType.DIRECTORY
-                if item.is_dir()
-                else FileType.FILE
-            )
-
-            files.append(
-                File(
-                    name=item.name, 
-                    path=item, 
-                    file_type=file_type,
-                    size=item.stat().st_size,
-                )
-            )
+            file = self._create_file(item)
+            files.append(file)
+            
         return files
+
+    def get_file_info(self, path: Path) -> File:
+        return self._create_file(path)
+        
+        
 

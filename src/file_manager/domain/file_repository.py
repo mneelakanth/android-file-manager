@@ -10,3 +10,7 @@ class FileRepository(ABC):
     def list_directory(self, path: Path) -> list[File]:
         pass
 
+    @abstractmethod
+    def get_file_info(self, path: Path) -> File:
+        pass
+

@@ -1,3 +1,3 @@
-from .use_cases import ListDirectory
+from .use_cases import GetFileDetails, ListDirectory
 
-__all__ = ["ListDirectory"]
+__all__ = ["GetFileDetails", "ListDirectory"]
