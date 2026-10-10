@@ -31,6 +31,11 @@ class LocalFileRepository(FileRepository):
 
     def get_file_info(self, path: Path) -> File:
         return self._create_file(path)
+
+    def create_directory(self, path: Path) -> File:
+        path.mkdir()
+        return self._create_file(path)
+        
         
         
 
