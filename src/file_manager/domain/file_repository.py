@@ -17,3 +17,7 @@ class FileRepository(ABC):
     @abstractmethod
     def create_directory(self, path: Path) -> File:
         pass
+
+    @abstractmethod
+    def rename_item(self, source: Path, destination: Path) -> File:
+        pass

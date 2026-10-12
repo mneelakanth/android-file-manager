@@ -35,6 +35,19 @@ class LocalFileRepository(FileRepository):
     def create_directory(self, path: Path) -> File:
         path.mkdir()
         return self._create_file(path)
+
+    def rename_item(self, source: Path, destination: Path) -> File:
+        if source == destination:
+            return self._create_file(source)
+        
+        if destination.exists():
+            raise FileExistsError(
+                f"Destination already exists: {destination}"
+            )    
+                
+        source.rename(destination)
+        return self._create_file(destination)
+    
         
         
         
