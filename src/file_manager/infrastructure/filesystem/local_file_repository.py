@@ -47,6 +47,12 @@ class LocalFileRepository(FileRepository):
                 
         source.rename(destination)
         return self._create_file(destination)
+
+    def delete_item(self, path: Path) -> None:
+        if path.is_dir():
+            path.rmdir()
+        else:
+            path.unlink()
     
         
         

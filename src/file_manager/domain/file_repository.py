@@ -21,3 +21,7 @@ class FileRepository(ABC):
     @abstractmethod
     def rename_item(self, source: Path, destination: Path) -> File:
         pass
+
+    @abstractmethod
+    def delete_item(self, path: Path) -> None:
+        pass

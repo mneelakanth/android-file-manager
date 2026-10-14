@@ -3,6 +3,7 @@ from .use_cases import (
     ListDirectory, 
     CreateDirectory,
     RenameItem,
+    DeleteItem,
     )
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "ListDirectory", 
     "CreateDirectory",
     "RenameItem",
+    "DeleteItem",
     ]
