@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 from file_manager.domain import File, FileType, FileRepository
@@ -53,6 +54,19 @@ class LocalFileRepository(FileRepository):
             path.rmdir()
         else:
             path.unlink()
+
+    def copy_item(self, source: Path, destination:Path) -> File:
+        if destination.exists():
+            raise FileExistsError(
+                f"Destination already exists: {destination}"
+            )
+
+        if source.is_dir():
+            shutil.copytree(source, destination)
+        else:
+            shutil.copy2(source, destination)
+
+        return self._create_file(destination)
     
         
         

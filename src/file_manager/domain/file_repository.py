@@ -25,3 +25,7 @@ class FileRepository(ABC):
     @abstractmethod
     def delete_item(self, path: Path) -> None:
         pass
+
+    @abstractmethod
+    def copy_item(self, path: Path, destination: Path) -> File:
+        pass

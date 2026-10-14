@@ -3,6 +3,7 @@ from .list_directory import ListDirectory
 from .create_directory import CreateDirectory
 from .rename_item import RenameItem
 from .delete_item import DeleteItem
+from .copy_item import CopyItem
 
 __all__ = [
     "GetFileDetails", 
@@ -10,4 +11,5 @@ __all__ = [
     "CreateDirectory", 
     "RenameItem",
     "DeleteItem",
+    "CopyItem",
     ]
