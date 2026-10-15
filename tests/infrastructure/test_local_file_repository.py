@@ -208,3 +208,13 @@ def test_move_item_to_same_path(tmp_path: Path):
     assert result.name == "notes.txt"
     assert result.path == source
     assert result.size == 5
+
+def test_get_storage_info(tmp_path: Path):
+    repository = LocalFileRepository()
+
+    result = repository.get_storage_info(tmp_path)
+
+    assert result.total_bytes > 0
+    assert result.used_bytes >= 0
+    assert result.free_bytes >= 0
+    assert result.total_bytes == result.used_bytes + result.free_bytes

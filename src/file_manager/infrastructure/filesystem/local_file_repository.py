@@ -1,8 +1,12 @@
 import shutil
 from pathlib import Path
 
-from file_manager.domain import File, FileType, FileRepository
-
+from file_manager.domain import (
+    File, 
+    FileType, 
+    FileRepository,
+    StorageInfo,
+)
 
 class LocalFileRepository(FileRepository):
 
@@ -80,6 +84,17 @@ class LocalFileRepository(FileRepository):
         shutil.move(str(source), str(destination))
 
         return self._create_file(destination)
+
+    def get_storage_info(self, path: Path):
+        usage = shutil.disk_usage(path)
+
+        used_bytes = usage.total - usage.free
+
+        return StorageInfo(
+            total_bytes=usage.total,
+            used_bytes=used_bytes,
+            free_bytes=usage.free,
+        )
     
         
         

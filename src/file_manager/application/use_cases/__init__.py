@@ -5,6 +5,7 @@ from .rename_item import RenameItem
 from .delete_item import DeleteItem
 from .copy_item import CopyItem
 from .move_item import MoveItem
+from .get_storage_info import GetStorageInfo
 
 __all__ = [
     "GetFileDetails", 
@@ -14,4 +15,5 @@ __all__ = [
     "DeleteItem",
     "CopyItem",
     "MoveItem",
+    "GetStorageInfo",
     ]

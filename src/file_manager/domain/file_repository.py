@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 
 from .file import File
-
+from .storage_info import StorageInfo
 
 class FileRepository(ABC):
 
@@ -32,4 +32,8 @@ class FileRepository(ABC):
 
     @abstractmethod
     def move_item(self, path: Path, destination: Path) -> File:
+        pass
+
+    @abstractmethod
+    def get_storage_info(self, path: Path) -> StorageInfo:
         pass
