@@ -218,3 +218,57 @@ def test_get_storage_info(tmp_path: Path):
     assert result.used_bytes >= 0
     assert result.free_bytes >= 0
     assert result.total_bytes == result.used_bytes + result.free_bytes
+
+def test_search_items_by_name(tmp_path: Path):
+    (tmp_path / "Photo.jpg").write_text("image")
+    (tmp_path / "notes.txt").write_text("notes")
+    (tmp_path / "documents").mkdir()
+
+    repository = LocalFileRepository()
+
+    result = repository.search_items(tmp_path, "photo")
+
+    assert len(result) == 1
+    assert result[0].name == "Photo.jpg"
+    assert result[0].path == tmp_path / "Photo.jpg"
+
+def test_search_items_sorted_alphabetically(tmp_path: Path):
+    (tmp_path / "Zebra.txt").write_text("z")
+    (tmp_path / "Apple.txt").write_text("a")
+    (tmp_path / "mango.txt").write_text("m")
+
+    repository = LocalFileRepository()
+
+    result = repository.search_items(tmp_path, ".txt")
+
+    assert [item.name for item in result] == [
+        "Apple.txt", "mango.txt", "Zebra.txt"
+    ]
+
+def test_search_items_no_match(tmp_path: Path):
+    (tmp_path / "notes.txt").write_text("hello")
+    (tmp_path / "Photo.jpg").write_text("photos")
+
+    repository = LocalFileRepository()
+
+    result = repository.search_items(tmp_path, "video")
+
+    assert result == []
+
+def test_search_items_directory_does_not_exist(tmp_path: Path):
+    missing_directory = tmp_path / "missing"
+
+    repository = LocalFileRepository()
+
+    with pytest.raises(FileNotFoundError):
+        repository.search_items(missing_directory, "notes")
+
+def test_search_items_path_is_a_file(tmp_path: Path):
+    file_path = tmp_path / "notes.txt"
+    file_path.write_text("hello")
+
+    repository = LocalFileRepository()
+
+    with pytest.raises(NotADirectoryError):
+        repository.search_items(file_path, "notes")
+

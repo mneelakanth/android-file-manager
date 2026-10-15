@@ -95,6 +95,23 @@ class LocalFileRepository(FileRepository):
             used_bytes=used_bytes,
             free_bytes=usage.free,
         )
+
+    def search_items(self, directory: Path, query: str) -> list[File]:
+        if not directory.is_dir():
+            if not directory.exists():
+                raise FileNotFoundError(directory)
+            raise NotADirectoryError(directory)
+
+        normalized_query = query.casefold()
+
+        return [
+            self._create_file(item)
+            for item in sorted( 
+                directory.iterdir(), 
+                key=lambda item: item.name.casefold()
+            )
+            if normalized_query in item.name.casefold()
+        ]
     
         
         
