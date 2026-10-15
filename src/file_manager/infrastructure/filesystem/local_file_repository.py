@@ -67,6 +67,19 @@ class LocalFileRepository(FileRepository):
             shutil.copy2(source, destination)
 
         return self._create_file(destination)
+
+    def move_item(self, source: Path, destination:Path) -> File:
+        if source == destination:
+            return self._create_file(source)
+        
+        if destination.exists():
+            raise FileExistsError(
+                f"Destination already exists: {destination}"
+            )
+
+        shutil.move(str(source), str(destination))
+
+        return self._create_file(destination)
     
         
         

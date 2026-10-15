@@ -134,3 +134,77 @@ def test_copy_directory_destination_exists(tmp_path: Path):
     assert (source / "notes.txt").read_text() == "original content"    
     assert (destination / "existing.txt").read_text() == "keep this file"
     assert not(destination / "notes.txt").exists()
+
+
+def test_move_file(tmp_path: Path):
+    source = tmp_path / "original.txt"
+    destination = tmp_path / "moved.txt"
+    source.write_text("hello")
+
+    repository = LocalFileRepository()
+
+    result = repository.move_item(source, destination)
+
+    assert not source.exists()
+    assert destination.exists()
+    assert destination.read_text() == "hello"
+    assert result.name == "moved.txt"
+    assert result.path == destination
+    assert result.size == 5
+
+def test_move_directory(tmp_path: Path):
+    source = tmp_path / "original_folder"
+    destination = tmp_path / "moved_folder"
+    
+    source.mkdir()
+    (source / "notes.txt").write_text("hello")
+
+    repository = LocalFileRepository()
+
+    result = repository.move_item(source, destination)
+    assert not source.exists()
+    assert destination.is_dir()
+    assert (destination / "notes.txt").read_text() == "hello"
+    assert result.name == "moved_folder"
+    assert result.path == destination
+    assert result.file_type == FileType.DIRECTORY
+
+def test_move_file_destination_exists(tmp_path: Path):
+    source = tmp_path / "original.txt"
+    destination = tmp_path / "moved.txt"
+
+    source.write_text("original content")
+    destination.write_text("keep this content")
+
+    repository = LocalFileRepository()
+
+    with pytest.raises(FileExistsError):
+        repository.move_item(source, destination)
+    
+    assert source.read_text() == "original content"
+    assert destination.read_text() == "keep this content"
+
+def test_move_file_source_does_not_exist(tmp_path: Path):
+    source = tmp_path / "missing.txt"
+    destination = tmp_path / "moved.txt"
+
+    repository = LocalFileRepository()
+    
+    with pytest.raises(FileNotFoundError):
+        repository.move_item(source, destination)
+
+    assert not destination.exists()
+
+def test_move_item_to_same_path(tmp_path: Path):
+    source = tmp_path / "notes.txt"
+    source.write_text("hello")
+
+    repository = LocalFileRepository()
+
+    result = repository.move_item(source, source)
+
+    assert source.exists()
+    assert source.read_text() == "hello"
+    assert result.name == "notes.txt"
+    assert result.path == source
+    assert result.size == 5

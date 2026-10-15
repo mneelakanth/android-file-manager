@@ -29,3 +29,7 @@ class FileRepository(ABC):
     @abstractmethod
     def copy_item(self, path: Path, destination: Path) -> File:
         pass
+
+    @abstractmethod
+    def move_item(self, path: Path, destination: Path) -> File:
+        pass

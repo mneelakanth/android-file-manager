@@ -5,6 +5,7 @@ from .use_cases import (
     RenameItem,
     DeleteItem,
     CopyItem,
+    MoveItem
     )
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "RenameItem",
     "DeleteItem",
     "CopyItem",
+    "MoveItem",
     ]
