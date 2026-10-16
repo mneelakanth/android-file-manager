@@ -7,6 +7,7 @@ from .copy_item import CopyItem
 from .move_item import MoveItem
 from .get_storage_info import GetStorageInfo
 from .search_items import SearchItems
+from .sort_items import SortItems
 
 __all__ = [
     "GetFileDetails", 
@@ -18,4 +19,5 @@ __all__ = [
     "MoveItem",
     "GetStorageInfo",
     "SearchItems",
+    "SortItems",
     ]

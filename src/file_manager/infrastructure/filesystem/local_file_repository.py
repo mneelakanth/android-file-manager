@@ -113,7 +113,33 @@ class LocalFileRepository(FileRepository):
             if normalized_query in item.name.casefold()
         ]
     
-        
-        
-        
+    def sort_items(
+            self, 
+            directory: Path, 
+            sort_by: str, 
+            descending: bool = False
+        ) -> list[File]:
+        if not directory.is_dir():
+            if not directory.exists():
+                raise FileNotFoundError(directory)
+            raise NotADirectoryError(directory)
 
+        items = [
+            self._create_file(item)
+            for item in directory.iterdir()
+        ]
+
+        if sort_by == "name":
+            key = lambda item: item.name.casefold()
+        elif sort_by == "size":
+            key = lambda item: item.size
+        elif sort_by == "type":
+            key = lambda item: item.file_type.value
+        else:
+            raise ValueError(f"Unsupported sort criterion : {sort_by}")
+
+        return sorted(
+            items, 
+            key=key, 
+            reverse=descending
+        )

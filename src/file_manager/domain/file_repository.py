@@ -41,3 +41,12 @@ class FileRepository(ABC):
     @abstractmethod
     def search_items(self, directory: Path, query: str) -> list[File]:
         pass
+
+    @abstractmethod
+    def sort_items(
+        self, 
+        directory: Path, 
+        sort_by: str, 
+        descending: bool =False
+    ) -> list[File]: 
+        pass

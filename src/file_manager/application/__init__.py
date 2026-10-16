@@ -8,6 +8,7 @@ from .use_cases import (
     MoveItem,
     GetStorageInfo,
     SearchItems,
+    SortItems,
     )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "MoveItem",
     "GetStorageInfo",
     "SearchItems",
+    "SortItems",
     ]
